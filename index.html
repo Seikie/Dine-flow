@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DineFlow — Restaurant Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <div class="login-hero">
+        <div class="restaurant-photo"></div>
+        <div class="hero-overlay"></div>
+        <div class="brand-mark">🍴</div>
+        <h1>DineFlow</h1>
+        <p>Food Ordering &amp; Restaurant<br>Table Management System</p>
+      </div>
+      <form id="loginForm" class="login-form">
+        <label>Username or Email</label>
+        <div class="input-wrap"><span>♙</span><input id="loginUser" required placeholder="Email or Username"></div>
+        <label>Password</label>
+        <div class="input-wrap"><span>♙</span><input id="loginPassword" required type="password" placeholder="Password"><button type="button" id="showPass">◉</button></div>
+        <button class="primary-btn" type="submit">Log In</button>
+        <button class="link-btn" type="button">Forgot password?</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="app" class="app hidden">
+    <aside class="sidebar">
+      <div class="side-brand"><div class="brand-mark small">🍴</div><div><strong>DineFlow</strong><span>Restaurant System</span></div></div>
+      <div class="staff-card"><div class="avatar">JS</div><div><strong>Juan Staff</strong><span>Staff Account</span></div><span class="online-dot"></span></div>
+      <nav>
+        <button class="nav-item active" data-page="dashboard"><span>⌂</span> Dashboard</button>
+        <button class="nav-item" data-page="tables"><span>▦</span> Tables</button>
+        <button class="nav-item" data-page="orders"><span>▤</span> Orders</button>
+        <button class="nav-item" data-page="customers"><span>♙</span> Customers</button>
+        <button class="nav-item" data-page="reservations"><span>◷</span> Reservations</button>
+      </nav>
+      <div class="side-bottom">
+        <button class="nav-item" data-page="settings"><span>⚙</span> Settings</button>
+        <button class="nav-item logout-btn"><span>↪</span> Log out</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">RESTAURANT MANAGEMENT</div>
+          <h2 id="pageTitle">Dashboard</h2>
+        </div>
+        <div class="top-actions">
+          <div class="date-label" id="todayLabel"></div>
+          <button class="icon-btn">♧</button>
+          <div class="profile-mini">JS</div>
+        </div>
+      </header>
+
+      <section id="dashboardPage" class="page">
+        <div class="welcome-row"><div><h3>Good morning, Staff!</h3><p>Here's what's happening in your restaurant today.</p></div></div>
+        <div class="stats-grid">
+          <div class="stat-card green"><span class="stat-icon">▣</span><div><strong id="availableCount">6</strong><span>Available</span></div></div>
+          <div class="stat-card red"><span class="stat-icon">▣</span><div><strong id="occupiedCount">4</strong><span>Occupied</span></div></div>
+          <div class="stat-card yellow"><span class="stat-icon">▣</span><div><strong id="reservedCount">2</strong><span>Reserved</span></div></div>
+          <div class="stat-card blue"><span class="stat-icon">▦</span><div><strong id="totalTables">12</strong><span>Total Tables</span></div></div>
+        </div>
+        <div class="stats-grid lower">
+          <div class="metric-card"><span>Today's Orders</span><strong>18</strong><em>↑ 12%</em></div>
+          <div class="metric-card"><span>Today's Sales</span><strong>₱ 8,450</strong><em>↑ 16%</em></div>
+        </div>
+        <div class="section-head"><div><h3>Table Status</h3><p>Live overview of all restaurant tables</p></div><button class="outline-btn" data-page="tables">Manage Tables</button></div>
+        <div id="dashboardTables" class="table-grid"></div>
+      </section>
+
+      <section id="tablesPage" class="page hidden">
+        <div class="section-head"><div><h3>Table Management</h3><p>Monitor and manage your restaurant tables.</p></div><button class="primary-btn compact" id="addTableBtn">＋ Add Table</button></div>
+        <div class="toolbar"><input id="tableSearch" placeholder="⌕  Search table..."><select id="statusFilter"><option value="all">All Status</option><option value="available">Available</option><option value="occupied">Occupied</option><option value="reserved">Reserved</option></select></div>
+        <div id="allTables" class="table-grid large"></div>
+      </section>
+
+      <section id="tableDetailPage" class="page hidden">
+        <button class="back-btn" data-page="tables">← Back to Tables</button>
+        <div class="detail-layout">
+          <div class="detail-card">
+            <div class="detail-title"><div><span id="detailStatus" class="status-pill"></span><h3 id="detailTableName">Table 05</h3></div><button class="outline-btn">Edit</button></div>
+            <div class="customer-box"><h4>Customer Information</h4><div class="customer-row"><span>Name</span><strong id="detailCustomer">Juan Dela Cruz</strong></div><div class="customer-row"><span>Guests</span><strong id="detailGuests">4</strong></div><div class="customer-row"><span>Contact</span><strong>09XX XXX XXXX</strong></div></div>
+            <div class="room-photo"></div>
+            <div class="order-preview"><h4>Current Order</h4><div id="detailOrder"></div><div class="total-line"><span>Total</span><strong>₱470</strong></div></div>
+            <div class="action-row"><button class="primary-btn" data-page="orders">＋ Add Order</button><button class="outline-btn" data-page="billing">View Bill</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="ordersPage" class="page hidden">
+        <div class="section-head"><div><h3>New Order <span class="muted">— Table <span id="orderTableNo">05</span></span></h3><p>Select items to add to the current order.</p></div></div>
+        <div class="category-tabs"><button class="active">All</button><button>Meals</button><button>Drinks</button><button>Desserts</button><button>Snacks</button></div>
+        <div id="menuGrid" class="menu-grid"></div>
+        <div class="cart-card"><div><strong>Current Order</strong><span id="cartCount">0 items</span></div><div id="cartItems"></div><div class="cart-total"><span>Total</span><strong id="cartTotal">₱0</strong></div><button class="primary-btn" id="placeOrder">Place Order</button></div>
+      </section>
+
+      <section id="billingPage" class="page hidden">
+        <button class="back-btn" data-page="tableDetail">← Back to Table</button>
+        <div class="billing-card">
+          <div class="bill-head"><div><span class="table-icon">▣</span><div><h3>Table 05</h3><p>Customer: Juan Dela Cruz</p></div></div><span class="status-pill occupied">Occupied</span></div>
+          <div class="bill-lines">
+            <div><span>Chicken Meal <small>×2</small></span><strong>₱300</strong></div>
+            <div><span>Iced Coffee <small>×1</small></span><strong>₱90</strong></div>
+            <div><span>Fries <small>×1</small></span><strong>₱80</strong></div>
+          </div>
+          <div class="bill-summary"><div><span>Subtotal</span><strong>₱470</strong></div><div><span>Discount</span><strong>₱0</strong></div><div class="grand"><span>Total</span><strong>₱470</strong></div></div>
+          <h4>Payment Method</h4>
+          <div class="payments"><label><input type="radio" name="payment" checked> Cash</label><label><input type="radio" name="payment"> GCash</label><label><input type="radio" name="payment"> Card</label></div>
+          <button class="primary-btn" id="confirmPayment">Confirm Payment</button>
+        </div>
+      </section>
+
+      <section id="customersPage" class="page hidden">
+        <div class="section-head"><div><h3>Customers</h3><p>Customer profiles and order history.</p></div></div>
+        <input class="wide-search" placeholder="⌕  Search customer...">
+        <div class="customer-layout"><div id="customerList" class="customer-list"></div><div class="customer-profile" id="customerProfile"></div></div>
+      </section>
+
+      <section id="reservationsPage" class="page hidden">
+        <div class="section-head"><div><h3>Reservations</h3><p>Today's upcoming reservations.</p></div><button class="primary-btn compact" id="newReservation">＋ New Reservation</button></div>
+        <div id="reservationList" class="reservation-list"></div>
+      </section>
+
+      <section id="settingsPage" class="page hidden">
+        <div class="section-head"><div><h3>Settings</h3><p>Basic DineFlow system settings.</p></div></div>
+        <div class="settings-card"><label>Restaurant Name<input value="DineFlow Restaurant"></label><label>Currency<select><option>PHP — ₱</option><option>USD — $</option></select></label><label>Notifications<div class="switch-row"><input type="checkbox" checked> Enable notifications</div></label><button class="primary-btn" id="saveSettings">Save Settings</button></div>
+      </section>
+    </main>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
